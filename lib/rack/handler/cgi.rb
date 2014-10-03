@@ -23,12 +23,12 @@ module Rack
                      "rack.multiprocess" => true,
                      "rack.run_once" => true,
 
-                     "rack.url_scheme" => ["yes", "on", "1"].include?(ENV["HTTPS"]) ? "https" : "http"
+                     "rack.url_scheme" => ["yes", "on", "1"].include?(ENV[HTTPS]) ? "https" : "http"
                    })
 
         env[QUERY_STRING] ||= ""
-        env["HTTP_VERSION"] ||= env["SERVER_PROTOCOL"]
-        env["REQUEST_PATH"] ||= "/"
+        env[HTTP_VERSION] ||= env[SERVER_PROTOCOL]
+        env[REQUEST_PATH] ||= "/"
 
         status, headers, body = app.call(env)
         begin

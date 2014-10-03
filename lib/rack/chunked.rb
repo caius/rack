@@ -43,7 +43,7 @@ module Rack
       status, headers, body = @app.call(env)
       headers = HeaderHash.new(headers)
 
-      if env['HTTP_VERSION'] == 'HTTP/1.0' ||
+      if env[HTTP_VERSION] == 'HTTP/1.0' ||
          STATUS_WITH_NO_ENTITY_BODY.include?(status) ||
          headers[CONTENT_LENGTH] ||
          headers['Transfer-Encoding']

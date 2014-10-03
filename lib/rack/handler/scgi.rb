@@ -32,9 +32,9 @@ module Rack
         env = {}.replace(request)
         env.delete "HTTP_CONTENT_TYPE"
         env.delete "HTTP_CONTENT_LENGTH"
-        env["REQUEST_PATH"], env[QUERY_STRING] = env["REQUEST_URI"].split('?', 2)
-        env["HTTP_VERSION"] ||= env["SERVER_PROTOCOL"]
-        env[PATH_INFO] = env["REQUEST_PATH"]
+        env[REQUEST_PATH], env[QUERY_STRING] = env["REQUEST_URI"].split('?', 2)
+        env[HTTP_VERSION] ||= env[SERVER_PROTOCOL]
+        env[PATH_INFO] = env[REQUEST_PATH]
         env[QUERY_STRING] ||= ""
         env[SCRIPT_NAME] = ""
 
@@ -48,7 +48,7 @@ module Rack
                      "rack.multiprocess" => true,
                      "rack.run_once" => false,
 
-                     "rack.url_scheme" => ["yes", "on", "1"].include?(env["HTTPS"]) ? "https" : "http"
+                     "rack.url_scheme" => ["yes", "on", "1"].include?(env[HTTPS]) ? "https" : "http"
                    })
         status, headers, body = app.call(env)
         begin

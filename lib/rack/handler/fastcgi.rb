@@ -53,12 +53,12 @@ module Rack
                      "rack.multiprocess" => true,
                      "rack.run_once" => false,
 
-                     "rack.url_scheme" => ["yes", "on", "1"].include?(env["HTTPS"]) ? "https" : "http"
+                     "rack.url_scheme" => ["yes", "on", "1"].include?(env[HTTPS]) ? "https" : "http"
                    })
 
         env[QUERY_STRING] ||= ""
-        env["HTTP_VERSION"] ||= env["SERVER_PROTOCOL"]
-        env["REQUEST_PATH"] ||= "/"
+        env[HTTP_VERSION] ||= env[SERVER_PROTOCOL]
+        env[REQUEST_PATH] ||= "/"
         env.delete "CONTENT_TYPE"  if env["CONTENT_TYPE"] == ""
         env.delete "CONTENT_LENGTH"  if env["CONTENT_LENGTH"] == ""
 

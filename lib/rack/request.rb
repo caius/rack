@@ -68,7 +68,7 @@ module Rack
     end
 
     def scheme
-      if @env['HTTPS'] == 'on'
+      if @env[HTTPS] == 'on'
         'https'
       elsif @env['HTTP_X_FORWARDED_SSL'] == 'on'
         'https'
@@ -89,7 +89,7 @@ module Rack
       if forwarded = @env["HTTP_X_FORWARDED_HOST"]
         forwarded.split(/,\s?/).last
       else
-        @env['HTTP_HOST'] || "#{@env['SERVER_NAME'] || @env['SERVER_ADDR']}:#{@env['SERVER_PORT']}"
+        @env[HTTP_HOST] || "#{@env[SERVER_NAME] || @env[SERVER_ADDR]}:#{@env[SERVER_PORT]}"
       end
     end
 
@@ -103,7 +103,7 @@ module Rack
       elsif @env.has_key?("HTTP_X_FORWARDED_HOST")
         80
       else
-        @env["SERVER_PORT"].to_i
+        @env[SERVER_PORT].to_i
       end
     end
 

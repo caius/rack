@@ -70,7 +70,7 @@ module Rack
                      "rack.multiprocess" => false, # ???
                      "rack.run_once" => false,
 
-                     "rack.url_scheme" => ["yes", "on", "1"].include?(env["HTTPS"]) ? "https" : "http"
+                     "rack.url_scheme" => ["yes", "on", "1"].include?(env[HTTPS]) ? "https" : "http"
                    })
         env[QUERY_STRING] ||= ""
 
