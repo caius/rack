@@ -13,7 +13,7 @@ module Rack
         env = ENV.to_hash
         env.delete "HTTP_CONTENT_LENGTH"
 
-        env["SCRIPT_NAME"] = ""  if env["SCRIPT_NAME"] == "/"
+        env[SCRIPT_NAME] = ""  if env[SCRIPT_NAME] == "/"
 
         env.update({"rack.version" => Rack::VERSION,
                      "rack.input" => Rack::RewindableInput.new($stdin),
@@ -26,7 +26,7 @@ module Rack
                      "rack.url_scheme" => ["yes", "on", "1"].include?(ENV["HTTPS"]) ? "https" : "http"
                    })
 
-        env["QUERY_STRING"] ||= ""
+        env[QUERY_STRING] ||= ""
         env["HTTP_VERSION"] ||= env["SERVER_PROTOCOL"]
         env["REQUEST_PATH"] ||= "/"
 

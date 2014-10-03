@@ -10,11 +10,11 @@ module Rack
     end
 
     def call(env)
-      if env["REQUEST_METHOD"] == "POST"
+      if env[REQUEST_METHOD] == "POST"
         method = method_override(env)
         if HTTP_METHODS.include?(method)
-          env["rack.methodoverride.original_method"] = env["REQUEST_METHOD"]
-          env["REQUEST_METHOD"] = method
+          env["rack.methodoverride.original_method"] = env[REQUEST_METHOD]
+          env[REQUEST_METHOD] = method
         end
       end
 

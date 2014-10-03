@@ -105,7 +105,7 @@ module Rack
         when 'X-Accel-Redirect'
           path = F.expand_path(body.to_path)
           if url = map_accel_path(env, path)
-            headers['Content-Length'] = '0'
+            headers[CONTENT_LENGTH] = '0'
             headers[type] = url
             body = []
           else
@@ -113,7 +113,7 @@ module Rack
           end
         when 'X-Sendfile', 'X-Lighttpd-Send-File'
           path = F.expand_path(body.to_path)
-          headers['Content-Length'] = '0'
+          headers[CONTENT_LENGTH] = '0'
           headers[type] = path
           body = []
         when '', nil

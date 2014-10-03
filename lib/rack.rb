@@ -23,6 +23,17 @@ module Rack
     "1.4"
   end
 
+  PATH_INFO      = 'PATH_INFO'.freeze
+  REQUEST_METHOD = 'REQUEST_METHOD'.freeze
+  SCRIPT_NAME    = 'SCRIPT_NAME'.freeze
+  QUERY_STRING   = 'QUERY_STRING'.freeze
+  CACHE_CONTROL  = 'Cache-Control'.freeze
+  CONTENT_LENGTH = 'Content-Length'.freeze
+  CONTENT_TYPE   = 'Content-Type'.freeze
+
+  GET  = 'GET'.freeze
+  HEAD = 'HEAD'.freeze
+
   autoload :Builder, "rack/builder"
   autoload :BodyProxy, "rack/body_proxy"
   autoload :Cascade, "rack/cascade"

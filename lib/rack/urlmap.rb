@@ -40,8 +40,8 @@ module Rack
     end
 
     def call(env)
-      path = env["PATH_INFO"]
-      script_name = env['SCRIPT_NAME']
+      path = env[PATH_INFO]
+      script_name = env[SCRIPT_NAME]
       hHost = env['HTTP_HOST']
       sName = env['SERVER_NAME']
       sPort = env['SERVER_PORT']
@@ -58,17 +58,17 @@ module Rack
         rest = m[1]
         next unless !rest || rest.empty? || rest[0] == ?/
 
-        env['SCRIPT_NAME'] = (script_name + location)
-        env['PATH_INFO'] = rest
+        env[SCRIPT_NAME] = (script_name + location)
+        env[PATH_INFO] = rest
 
         return app.call(env)
       end
 
-      [404, {"Content-Type" => "text/plain", "X-Cascade" => "pass"}, ["Not Found: #{path}"]]
+      [404, {CONTENT_TYPE => "text/plain", "X-Cascade" => "pass"}, ["Not Found: #{path}"]]
 
     ensure
-      env['PATH_INFO'] = path
-      env['SCRIPT_NAME'] = script_name
+      env[PATH_INFO] = path
+      env[SCRIPT_NAME] = script_name
     end
   end
 end

@@ -13,7 +13,7 @@ module Rack
 
   class File
     SEPS = Regexp.union(*[::File::SEPARATOR, ::File::ALT_SEPARATOR].compact)
-    ALLOWED_VERBS = %w[GET HEAD]
+    ALLOWED_VERBS = [GET, HEAD]
 
     attr_accessor :root
     attr_accessor :path
@@ -27,7 +27,7 @@ module Rack
       if headers.instance_of? String
         warn \
           "Rack::File headers parameter replaces cache_control after Rack 1.5."
-        @headers = { 'Cache-Control' => headers }
+        @headers = { CACHE_CONTROL => headers }
       else
         @headers = headers
       end
@@ -40,11 +40,11 @@ module Rack
     F = ::File
 
     def _call(env)
-      unless ALLOWED_VERBS.include? env["REQUEST_METHOD"]
+      unless ALLOWED_VERBS.include? env[REQUEST_METHOD]
         return fail(405, "Method Not Allowed")
       end
 
-      @path_info = Utils.unescape(env["PATH_INFO"])
+      @path_info = Utils.unescape(env[PATH_INFO])
       parts = @path_info.split SEPS
 
       clean = []
@@ -76,9 +76,9 @@ module Rack
         200,
         {
           "Last-Modified"  => last_modified,
-          "Content-Type"   => Mime.mime_type(F.extname(@path), 'text/plain')
+          CONTENT_TYPE   => Mime.mime_type(F.extname(@path), 'text/plain')
         },
-        env["REQUEST_METHOD"] == "HEAD" ? [] : self
+        env[REQUEST_METHOD] == HEAD ? [] : self
       ]
 
       # Set custom headers
@@ -109,7 +109,7 @@ module Rack
         size = @range.end - @range.begin + 1
       end
 
-      response[1]["Content-Length"] = size.to_s
+      response[1][CONTENT_LENGTH] = size.to_s
       response
     end
 
@@ -134,8 +134,8 @@ module Rack
       [
         status,
         {
-          "Content-Type" => "text/plain",
-          "Content-Length" => body.size.to_s,
+          CONTENT_TYPE => "text/plain",
+          CONTENT_LENGTH => body.size.to_s,
           "X-Cascade" => "pass"
         },
         [body]

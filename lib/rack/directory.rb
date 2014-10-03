@@ -55,8 +55,8 @@ table { width:100%%; }
 
     def _call(env)
       @env = env
-      @script_name = env['SCRIPT_NAME']
-      @path_info = Utils.unescape(env['PATH_INFO'])
+      @script_name = env[SCRIPT_NAME]
+      @path_info = Utils.unescape(env[PATH_INFO])
 
       if forbidden = check_forbidden
         forbidden
@@ -71,8 +71,8 @@ table { width:100%%; }
 
       body = "Forbidden\n"
       size = Rack::Utils.bytesize(body)
-      return [403, {"Content-Type" => "text/plain",
-        "Content-Length" => size.to_s,
+      return [403, {CONTENT_TYPE => "text/plain",
+        CONTENT_LENGTH => size.to_s,
         "X-Cascade" => "pass"}, [body]]
     end
 
@@ -101,7 +101,7 @@ table { width:100%%; }
         @files << [ url, basename, size, type, mtime ]
       end
 
-      return [ 200, {'Content-Type'=>'text/html; charset=utf-8'}, self ]
+      return [ 200, {CONTENT_TYPE=>'text/html; charset=utf-8'}, self ]
     end
 
     def stat(node, max = 10)
@@ -129,8 +129,8 @@ table { width:100%%; }
     def entity_not_found
       body = "Entity not found: #{@path_info}\n"
       size = Rack::Utils.bytesize(body)
-      return [404, {"Content-Type" => "text/plain",
-        "Content-Length" => size.to_s,
+      return [404, {CONTENT_TYPE => "text/plain",
+        CONTENT_LENGTH => size.to_s,
         "X-Cascade" => "pass"}, [body]]
     end
 

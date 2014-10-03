@@ -41,7 +41,7 @@ module Rack
         env = request.env
         env.delete "HTTP_CONTENT_LENGTH"
 
-        env["SCRIPT_NAME"] = ""  if env["SCRIPT_NAME"] == "/"
+        env[SCRIPT_NAME] = ""  if env[SCRIPT_NAME] == "/"
 
         rack_input = RewindableInput.new(request.in)
 
@@ -56,7 +56,7 @@ module Rack
                      "rack.url_scheme" => ["yes", "on", "1"].include?(env["HTTPS"]) ? "https" : "http"
                    })
 
-        env["QUERY_STRING"] ||= ""
+        env[QUERY_STRING] ||= ""
         env["HTTP_VERSION"] ||= env["SERVER_PROTOCOL"]
         env["REQUEST_PATH"] ||= "/"
         env.delete "CONTENT_TYPE"  if env["CONTENT_TYPE"] == ""

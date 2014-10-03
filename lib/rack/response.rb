@@ -21,7 +21,7 @@ module Rack
 
     def initialize(body=[], status=200, header={})
       @status = status.to_i
-      @header = Utils::HeaderHash.new("Content-Type" => "text/html").
+      @header = Utils::HeaderHash.new(CONTENT_TYPE => "text/html").
                                       merge(header)
 
       @chunked = "chunked" == @header['Transfer-Encoding']
@@ -72,8 +72,8 @@ module Rack
       @block = block
 
       if [204, 205, 304].include?(status.to_i)
-        header.delete "Content-Type"
-        header.delete "Content-Length"
+        header.delete CONTENT_TYPE
+        header.delete CONTENT_LENGTH
         close
         [status.to_i, header, []]
       else
@@ -98,7 +98,7 @@ module Rack
       @length += Rack::Utils.bytesize(s) unless @chunked
       @writer.call s
 
-      header["Content-Length"] = @length.to_s unless @chunked
+      header[CONTENT_LENGTH] = @length.to_s unless @chunked
       str
     end
 
@@ -138,11 +138,11 @@ module Rack
       end
 
       def content_type
-        headers["Content-Type"]
+        headers[CONTENT_TYPE]
       end
 
       def content_length
-        cl = headers["Content-Length"]
+        cl = headers[CONTENT_LENGTH]
         cl ? cl.to_i : cl
       end
 
